@@ -17,7 +17,7 @@ void main() {
 class CineSearch extends StatelessWidget{
 	@override
 	Widget build(BuildContext context){
-    MaterialPageRoute.debugEnableFadingRoutes = true;
+    //MaterialPageRoute.debugEnableFadingRoutes = true;
 
     return new MaterialApp(
 			title: 'Cine Search',

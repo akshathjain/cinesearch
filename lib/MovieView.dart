@@ -632,7 +632,7 @@ class _MovieViewState extends State<MovieView> {
     List favs = prefs.getStringList("favorites") ?? new List();
     bool isFav = false;
     for(int i = 0; i < favs.length; i++){
-      if(JSON.decode(favs[i])["id"] == _id){
+      if(json.decode(favs[i])["id"] == _id){
         isFav = true;
         break;
       }
@@ -658,19 +658,19 @@ class _MovieViewState extends State<MovieView> {
 
     if(!_favorite){ //its in the list and is not a favorite, remove it
       for(int i = 0; i < favs.length; i++){
-        if(JSON.decode(favs[i])["id"] == _id){
+        if(json.decode(favs[i])["id"] == _id){
           favs.removeAt(i);
           break;
         }
       }
     }else if(_favorite){ //its not in the list, and is a favorite, add it; if is favorite and in list, readd to ensure that everything is up to date
       for(int i = 0; i < favs.length; i++){
-        if(JSON.decode(favs[i])["id"] == _id){
+        if(json.decode(favs[i])["id"] == _id){
           favs.removeAt(i);
           break;
         }
       }
-      favs.add(JSON.encode(saveData));
+      favs.add(json.encode(saveData));
     }
 
     prefs.setStringList("favorites", favs);
@@ -757,25 +757,25 @@ class _MovieViewState extends State<MovieView> {
 Future<Map> fetchMovieInformation(int id) async {
   final response = await http.get("https://api.themoviedb.org/3/movie/" +
       id.toString() +
-      "?api_key=" + apikey + "&language=en-US");
-  Map results = JSON.decode(response.body);
+      "?api_key=" + apiKey + "&language=en-US");
+  Map results = json.decode(response.body);
   return results;
 }
 
 Future<List> fetchMPAARating(int id) async {
   final response = await http.get("https://api.themoviedb.org/3/movie/" +
       id.toString() +
-      "/release_dates?api_key=" + apikey + "&language=en-US");
-  Map results = JSON.decode(response.body);
+      "/release_dates?api_key=" + apiKey + "&language=en-US");
+  Map results = json.decode(response.body);
   return results['results'];
 }
 
 Future<double> fetchMovieRating(String imdbId) async {
   if(imdbId != null){
     final response = await http.get("https://imdb.filmapi.com/v1/movie/" + imdbId);
-    Map results = JSON.decode(response.body)['data'];
+    Map results = json.decode(response.body)['data'];
     if(results != null)
-      return double.parse(JSON.decode(response.body)['data']['attributes']['rating']['score'].toString());
+      return double.parse(json.decode(response.body)['data']['attributes']['rating']['score'].toString());
     else
       return null;
   }
@@ -783,24 +783,24 @@ Future<double> fetchMovieRating(String imdbId) async {
 }
 
 Future<List> fetchVideos(int id) async{
-  final response = await http.get("https://api.themoviedb.org/3/movie/" + id.toString() + "/videos?api_key=" + apikey + "&language=en-US");
-  return JSON.decode(response.body)['results'];
+  final response = await http.get("https://api.themoviedb.org/3/movie/" + id.toString() + "/videos?api_key=" + apiKey + "&language=en-US");
+  return json.decode(response.body)['results'];
 }
 
 Future<List> fetchActors(int id) async{
-  final response = await http.get("https://api.themoviedb.org/3/movie/" + id.toString() + "/credits?api_key=" + apikey + "");
-  return JSON.decode(response.body)['cast'];
+  final response = await http.get("https://api.themoviedb.org/3/movie/" + id.toString() + "/credits?api_key=" + apiKey + "");
+  return json.decode(response.body)['cast'];
 }
 
 Future<List> fetchCollection(int collectionId) async{
   var response = await http.get("https://api.themoviedb.org/3/collection/" + collectionId.toString() + "?api_key=" + apiKey + "&language=en-US");
-  List list =  JSON.decode(response.body)['parts'];
+  List list =  json.decode(response.body)['parts'];
   //sort by date
   list.sort((a, b) => DateTime.parse(a['release_date']).compareTo(DateTime.parse(b['release_date'])));
   return list;
 }
 
 Future<List> fetchSimilarMovies(int id) async{
-  final response = await http.get("https://api.themoviedb.org/3/movie/" + id.toString() + "/similar?api_key=" + apikey + "&language=en-US&page=1");
-  return JSON.decode(response.body)['results'];
+  final response = await http.get("https://api.themoviedb.org/3/movie/" + id.toString() + "/similar?api_key=" + apiKey + "&language=en-US&page=1");
+  return json.decode(response.body)['results'];
 }

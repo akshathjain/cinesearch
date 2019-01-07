@@ -89,6 +89,6 @@ class _ViewAllViewState extends State<ViewAllView>{
 
 Future<List> fetchMovieList(String url, int page) async {
   final response = await http.get(url + page.toString());
-  List results = JSON.decode(response.body)['results'];
+  List results = json.decode(response.body)['results'];
   return results;
 }

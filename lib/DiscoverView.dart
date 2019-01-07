@@ -15,7 +15,7 @@ import 'ViewAllView.dart';
 
 Future<List> fetchMovieList(String url) async {
   final response = await http.get(url);
-  List results = JSON.decode(response.body)['results'];
+  List results = json.decode(response.body)['results'];
   return results;
 }
 

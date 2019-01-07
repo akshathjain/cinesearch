@@ -39,7 +39,7 @@ class _FavoritesViewState extends State<FavoritesView>{
     setState((){
       _movieData = new List();
       for(int i = 0; i < favIds.length; i++){
-        _movieData.add(JSON.decode(favIds[i]));
+        _movieData.add(json.decode(favIds[i]));
       }
     });
 
