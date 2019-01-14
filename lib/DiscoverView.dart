@@ -21,14 +21,17 @@ Future<List> fetchMovieList(String url) async {
 
 class DiscoverView extends StatefulWidget {
   @override
-  createState() => new DiscoverViewState();
+  createState() => new _DiscoverViewState();
 }
 
-class DiscoverViewState extends State<DiscoverView> {
+class _DiscoverViewState extends State<DiscoverView> with AutomaticKeepAliveClientMixin{
   List _nowPlayingData = new List();
   List _popularData = new List();
   List _topRatedData = new List();
   List _upcomingData = new List();
+  
+  @override
+  bool get wantKeepAlive => true;
 
   //prevent memory leaks by ensuring that setstate only called when this is in view
   void setSafeState(VoidCallback fn()){

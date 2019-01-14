@@ -15,9 +15,12 @@ class FavoritesView extends StatefulWidget{
 	createState() => new _FavoritesViewState();
 }
 
-class _FavoritesViewState extends State<FavoritesView>{
+class _FavoritesViewState extends State<FavoritesView> with AutomaticKeepAliveClientMixin{
   int _page = 0;
   List<Map> _movieData;
+
+  @override
+  bool get wantKeepAlive => true;
 
   @override
   void initState() {
@@ -28,7 +31,13 @@ class _FavoritesViewState extends State<FavoritesView>{
   
   @override
 	Widget build(BuildContext context) {
-		
+		if(_movieData == null)
+      return Center(child: CircularProgressIndicator(),);
+  
+    if(_movieData.isEmpty)
+      return Center(child: Text("Movies in your Watch List will appear here."),);
+
+    return _createGrid();
 	}
 
   //return type future<null> because that's what the refresh indicator requires
@@ -47,11 +56,14 @@ class _FavoritesViewState extends State<FavoritesView>{
   }
 
   Widget _createGrid(){    
-    return new ListView.builder(
-      itemBuilder: (BuildContext context, int i){
-        if(i < (_movieData.length + 2) ~/ 3)
-          return buildMovieRow(context, _movieData, i, 'favorites-row-' + i.toString());
-      },
+    return RefreshIndicator(
+      onRefresh: _getFavorites,
+      child: ListView.builder(
+        itemBuilder: (BuildContext context, int i){
+          if(i < (_movieData.length + 2) ~/ 3)
+            return buildMovieRow(context, _movieData, i, 'favorites-row-' + i.toString());
+        },
+      ),
     );
   }
 }
